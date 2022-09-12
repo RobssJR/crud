@@ -1,15 +1,25 @@
 package org.ui;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
+import org.controller.Controller;
+import org.model.Cidades;
 import org.model.Endereco;
+import org.model.Estados;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class frmPrincipal extends JFrame {
     private JPanel panelPrincipal;
@@ -34,6 +44,13 @@ public class frmPrincipal extends JFrame {
     private JLabel lbComplemento;
     private JLabel lbCEP;
     private JLabel lbUF;
+    private JLabel lbNumero;
+    private JTextField tfNumero;
+    private JComboBox cbCidade;
+    private JButton btnDeletar;
+    private JButton bntSalvar;
+
+    private DefaultTableModel model;
 
     public frmPrincipal(){
         super();
@@ -42,20 +59,16 @@ public class frmPrincipal extends JFrame {
         this.setBounds(0,0,900,600);
         this.setContentPane(panelPrincipal);
 
-
-        DefaultTableModel model = (DefaultTableModel) tbEnderecos.getModel();
-
-        for (Field field : Endereco.class.getFields()) {
-            if (!field.getName().toLowerCase().contains("id")) {
-                model.addColumn(field.getName());
-            }
+        for (Estados estado: Controller.getAllEstados()) {
+            cbUF.addItem(estado.getUf());
         }
 
-        for (int i = 0; i < 100; i++) {
-            model.addRow(new Object[]{i,i,i,i,i,i,i});
+        for (Cidades cidade: Controller.getAllCidades()) {
+            cbCidade.addItem(cidade.getNome());
         }
 
-        tbEnderecos.setModel(model);
+        carregarModel();
+
         tbEnderecos.getTableHeader().setBackground(Color.decode("#44475a"));
         tbEnderecos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
         tbEnderecos.getTableHeader().setForeground(Color.decode("#f8f8f2"));
@@ -66,10 +79,9 @@ public class frmPrincipal extends JFrame {
 
         tfBairro.setBorder(lineBorder);
         tfCEP.setBorder(lineBorder);
-        tfCidade.setBorder(lineBorder);
         tfComplemento.setBorder(lineBorder);
         tfRua.setBorder(lineBorder);
-
+        tfNumero.setBorder(lineBorder);
 
         btnEnderecos.addMouseListener(new MouseAdapter() {
             @Override
@@ -89,10 +101,98 @@ public class frmPrincipal extends JFrame {
                 panelTable.setVisible(false);
             }
         });
-        tbEnderecos.addMouseMotionListener(new MouseMotionAdapter() {
+        btnCadastrar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                Endereco endereco = new Endereco();
+
+                //endereco.setCEP(tfCEP.getText());
+                //endereco.setRua(tfRua.getText());
+                //endereco.setBairro(tfBairro.getText());
+                //.setComplemento(tfComplemento.getText());
+                //endereco.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
+
+                //Controller.CadastroEndereco(endereco);
+
+            }
         });
-        tbEnderecos.addMouseListener(new MouseAdapter() {
+        buscarButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JSONObject jsonObject;
+                JSONParser parser = new JSONParser();
+                HttpClient client = HttpClient.newHttpClient();
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .GET()
+                        .header("accept", "application/json")
+                        .uri(URI.create("https://viacep.com.br/ws/" + tfCEP.getText() + "/json/"))
+                        .build();
+
+                try {
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    jsonObject = (JSONObject) parser.parse(response.body());
+
+                    tfComplemento.setText((String) jsonObject.get("complemento"));
+                    tfBairro.setText((String) jsonObject.get("bairro"));
+                    tfRua.setText((String) jsonObject.get("logradouro"));
+                    tfCidade.setText((String) jsonObject.get("localidade"));
+
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         });
+        btnDeletar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                for (int row : tbEnderecos.getSelectedRows()) {
+                    System.out.println(model.getValueAt(row,0));
+                    Controller.deleteEndereco((long)model.getValueAt(row,0));
+                    model.removeRow(row);
+                }
+            }
+        });
+    }
+
+    public void carregarModel() {
+
+        model = (DefaultTableModel) tbEnderecos.getModel();
+
+        model.addColumn("Id");
+        model.addColumn("Rua");
+        model.addColumn("Numero");
+        model.addColumn("Complemento");
+        model.addColumn("Bairro");
+        model.addColumn("Cidade");
+        model.addColumn("CEP");
+
+        for (Endereco endereco : Controller.getAllEnderecos()) {
+            model.addRow(new Object[]{
+                    endereco.getIdEndereco(),
+                    endereco.getRua(),
+                    endereco.getNumeroCasa(),
+                    endereco.getComplemento(),
+                    endereco.getBairro(),
+                    endereco.getCidade().getNome(),
+                    endereco.getCEP()
+            });
+        }
+
+        tbEnderecos.setModel(model);
+
+        TableColumnModel tableColumnModel = tbEnderecos.getColumnModel();
+        tableColumnModel.removeColumn(tableColumnModel.getColumn(0));
+
     }
 
 }
