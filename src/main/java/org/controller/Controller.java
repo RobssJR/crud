@@ -10,8 +10,8 @@ import org.model.Estados;
 import java.util.List;
 
 public class Controller {
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("endereco");
-    private static EntityManager entityManager = entityManagerFactory.createEntityManager();
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("endereco");
+    private static final EntityManager entityManager = entityManagerFactory.createEntityManager();
 
     public static void CadastroEndereco(Endereco endereco) {
         try {

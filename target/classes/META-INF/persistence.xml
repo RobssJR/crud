@@ -9,6 +9,8 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!--  Aqui são listadas todas as entidades  -->
     <class>org.model.Endereco</class>
+    <class>org.model.Cidades</class>
+    <class>org.model.Endereco</class>
     <properties>
 
         <!--  Propriedades JDBC SQL SERVER  -->
