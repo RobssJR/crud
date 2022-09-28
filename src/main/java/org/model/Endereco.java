@@ -16,10 +16,6 @@ public class Endereco {
     private Cidades cidade;
     @Column(length = 9)
     private String CEP;
-    @Column(length = 50)
-    private String complemento;
-    @Column()
-    private int numeroCasa;
 
     public long getIdEndereco() {
         return idEndereco;
@@ -50,21 +46,6 @@ public class Endereco {
 
     public void setCEP(String CEP) {
         this.CEP = CEP;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-    public int getNumeroCasa() {
-        return numeroCasa;
-    }
-
-    public void setNumeroCasa(int numeroCasa) {
-        this.numeroCasa = numeroCasa;
     }
 
     public Cidades getCidade() {

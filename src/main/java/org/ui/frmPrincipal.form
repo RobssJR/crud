@@ -12,23 +12,27 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="8aa43" binding="panelTable" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="8aa43" binding="panelTable" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints border-constraint="East"/>
         <properties>
-          <background color="-14144970"/>
+          <background color="-16711879"/>
           <enabled value="true"/>
           <preferredSize width="735" height="0"/>
           <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
+          <component id="a25c4" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+            <constraints/>
+            <properties/>
+          </component>
           <scrollpane id="aeeab" binding="panelScroll">
-            <constraints border-constraint="Center"/>
+            <constraints/>
             <properties>
-              <background color="-12302502"/>
+              <background color="-12057510"/>
               <foreground color="-460558"/>
               <horizontalScrollBarPolicy value="31"/>
-              <preferredSize width="0" height="0"/>
+              <preferredSize width="700" height="550"/>
               <verticalScrollBarPolicy value="22"/>
               <visible value="true"/>
             </properties>
@@ -98,7 +102,7 @@
               <focusable value="false"/>
               <foreground color="-460558"/>
               <preferredSize width="100" height="30"/>
-              <text value="Salvar Mudancas"/>
+              <text value="Alterar"/>
             </properties>
           </component>
           <component id="6c425" class="javax.swing.JButton" binding="btnDeletar">
@@ -138,7 +142,7 @@
           </component>
           <component id="66f7" class="javax.swing.JLabel" binding="lbBairro">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -148,7 +152,7 @@
           </component>
           <component id="70091" class="javax.swing.JLabel" binding="lbCidade">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -156,19 +160,9 @@
               <text value="Cidade"/>
             </properties>
           </component>
-          <component id="d0722" class="javax.swing.JLabel" binding="lbComplemento">
-            <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <foreground color="-460558"/>
-              <text value="Complemento"/>
-            </properties>
-          </component>
           <component id="62752" class="javax.swing.JLabel" binding="lbCEP">
             <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -178,7 +172,7 @@
           </component>
           <component id="92e42" class="javax.swing.JLabel" binding="lbUF">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -188,7 +182,7 @@
           </component>
           <component id="1957b" class="javax.swing.JTextField" binding="tfBairro">
             <constraints>
-              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
@@ -202,7 +196,7 @@
           </component>
           <component id="a354" class="javax.swing.JTextField" binding="tfCEP">
             <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
@@ -216,7 +210,7 @@
           </component>
           <component id="ce52b" class="javax.swing.JComboBox" binding="cbUF">
             <constraints>
-              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
             </constraints>
             <properties>
@@ -227,7 +221,7 @@
           </component>
           <component id="ac59f" class="javax.swing.JButton" binding="btnCadastrar">
             <constraints>
-              <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
             </constraints>
             <properties>
@@ -239,7 +233,7 @@
           </component>
           <component id="f65e6" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
             <constraints>
-              <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag top="0" left="10" bottom="0" right="15" weightx="0.0" weighty="0.0" ipady="10"/>
             </constraints>
             <properties>
@@ -275,48 +269,9 @@
               <text value="Cadastro de enderecos"/>
             </properties>
           </component>
-          <component id="4dbdd" class="javax.swing.JTextField" binding="tfComplemento">
-            <constraints>
-              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
-            </constraints>
-            <properties>
-              <background color="-12302502"/>
-              <caretColor color="-460558"/>
-              <font size="14" style="1"/>
-              <foreground color="-460558"/>
-            </properties>
-          </component>
-          <component id="aaebb" class="javax.swing.JLabel" binding="lbNumero">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.1" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <foreground color="-460558"/>
-              <text value="Numero"/>
-            </properties>
-          </component>
-          <component id="5d90f" class="javax.swing.JTextField" binding="tfNumero">
-            <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <gridbag weightx="0.8" weighty="0.1" ipady="10"/>
-            </constraints>
-            <properties>
-              <background color="-12302502"/>
-              <caretColor color="-460558"/>
-              <font size="14" style="1"/>
-              <foreground color="-460558"/>
-              <opaque value="true"/>
-            </properties>
-          </component>
           <component id="b7d5d" class="javax.swing.JComboBox" binding="cbCidade">
             <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
             </constraints>
             <properties>

@@ -37,18 +37,15 @@ public class frmPrincipal extends JFrame {
     private JComboBox cbUF;
     private JButton buscarButton;
     private JTextField tfRua;
-    private JTextField tfComplemento;
     private JLabel lbRua;
     private JLabel lbBairro;
     private JLabel lbCidade;
-    private JLabel lbComplemento;
     private JLabel lbCEP;
     private JLabel lbUF;
-    private JLabel lbNumero;
-    private JTextField tfNumero;
     private JComboBox cbCidade;
     private JButton btnDeletar;
     private JButton bntSalvar;
+    private JTextField textField1;
 
     private DefaultTableModel model;
 
@@ -59,13 +56,13 @@ public class frmPrincipal extends JFrame {
         this.setBounds(0,0,900,600);
         this.setContentPane(panelPrincipal);
 
-        for (Estados estado: Controller.getAllEstados()) {
+        /*for (Estados estado: Controller.getAllEstados()) {
             cbUF.addItem(estado.getUf());
         }
 
         for (Cidades cidade: Controller.getAllCidades()) {
             cbCidade.addItem(cidade.getNome());
-        }
+        }*/
 
         carregarModel();
 
@@ -79,9 +76,9 @@ public class frmPrincipal extends JFrame {
 
         tfBairro.setBorder(lineBorder);
         tfCEP.setBorder(lineBorder);
-        tfComplemento.setBorder(lineBorder);
         tfRua.setBorder(lineBorder);
-        tfNumero.setBorder(lineBorder);
+
+        panelTable.setOpaque(false);
 
         btnEnderecos.addMouseListener(new MouseAdapter() {
             @Override
@@ -111,8 +108,6 @@ public class frmPrincipal extends JFrame {
                 //endereco.setCEP(tfCEP.getText());
                 //endereco.setRua(tfRua.getText());
                 //endereco.setBairro(tfBairro.getText());
-                //.setComplemento(tfComplemento.getText());
-                //endereco.setNumeroCasa(Integer.parseInt(tfNumero.getText()));
 
                 //Controller.CadastroEndereco(endereco);
 
@@ -136,7 +131,6 @@ public class frmPrincipal extends JFrame {
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     jsonObject = (JSONObject) parser.parse(response.body());
 
-                    tfComplemento.setText((String) jsonObject.get("complemento"));
                     tfBairro.setText((String) jsonObject.get("bairro"));
                     tfRua.setText((String) jsonObject.get("logradouro"));
                     tfCidade.setText((String) jsonObject.get("localidade"));
@@ -157,7 +151,7 @@ public class frmPrincipal extends JFrame {
 
                 for (int row : tbEnderecos.getSelectedRows()) {
                     System.out.println(model.getValueAt(row,0));
-                    Controller.deleteEndereco((long)model.getValueAt(row,0));
+                    //Controller.deleteEndereco((long)model.getValueAt(row,0));
                     model.removeRow(row);
                 }
             }
@@ -176,7 +170,7 @@ public class frmPrincipal extends JFrame {
         model.addColumn("Cidade");
         model.addColumn("CEP");
 
-        for (Endereco endereco : Controller.getAllEnderecos()) {
+        /*for (Endereco endereco : Controller.getAllEnderecos()) {
             model.addRow(new Object[]{
                     endereco.getIdEndereco(),
                     endereco.getRua(),
@@ -186,7 +180,7 @@ public class frmPrincipal extends JFrame {
                     endereco.getCidade().getNome(),
                     endereco.getCEP()
             });
-        }
+        }*/
 
         tbEnderecos.setModel(model);
 
