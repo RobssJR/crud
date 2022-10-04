@@ -7,34 +7,15 @@ import jakarta.persistence.*;
 public class Cidades {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idCidade;
+    public long idCidade;
     @ManyToOne
     @JoinColumn(name = "idEstado")
-    private Estados estados;
+    public Estados estados;
     @Column(length = 50)
-    private String nome;
+    public String nome;
 
-    public long getIdCidade() {
-        return idCidade;
-    }
-
-    public void setIdCidade(long idCidade) {
-        this.idCidade = idCidade;
-    }
-
-    public Estados getEstados() {
-        return estados;
-    }
-
-    public void setEstados(Estados estados) {
-        this.estados = estados;
-    }
-
-    public String getNome() {
+    @Override
+    public String toString() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 }

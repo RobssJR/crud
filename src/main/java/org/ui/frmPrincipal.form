@@ -13,26 +13,34 @@
     <border type="none"/>
     <children>
       <grid id="8aa43" binding="panelTable" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-        <constraints border-constraint="East"/>
+        <constraints border-constraint="Center"/>
         <properties>
-          <background color="-16711879"/>
+          <background color="-12302502"/>
           <enabled value="true"/>
-          <preferredSize width="735" height="0"/>
+          <preferredSize width="735" height="700"/>
           <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
-          <component id="a25c4" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="53ae9" class="javax.swing.JTextField" binding="tfSearch">
             <constraints/>
-            <properties/>
+            <properties>
+              <background color="-12302502"/>
+              <caretColor color="-460558"/>
+              <font size="14" style="1"/>
+              <foreground color="-460558"/>
+              <margin top="2" left="6" bottom="2" right="6"/>
+              <opaque value="true"/>
+              <preferredSize width="600" height="25"/>
+            </properties>
           </component>
           <scrollpane id="aeeab" binding="panelScroll">
             <constraints/>
             <properties>
-              <background color="-12057510"/>
+              <background color="-12697007"/>
               <foreground color="-460558"/>
               <horizontalScrollBarPolicy value="31"/>
-              <preferredSize width="700" height="550"/>
+              <preferredSize width="750" height="565"/>
               <verticalScrollBarPolicy value="22"/>
               <visible value="true"/>
             </properties>
@@ -56,7 +64,8 @@
           </scrollpane>
         </children>
       </grid>
-      <grid id="7593a" binding="panelOpcoes" layout-manager="FlowLayout" hgap="0" vgap="20" flow-align="1">
+      <grid id="7593a" binding="panelOpcoes" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="West"/>
         <properties>
           <background color="-14144970"/>
@@ -67,7 +76,9 @@
         <border type="none"/>
         <children>
           <component id="90713" class="javax.swing.JButton" binding="btnEnderecos">
-            <constraints/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
             <properties>
               <background color="-10325340"/>
               <borderPainted value="true"/>
@@ -80,7 +91,9 @@
             </properties>
           </component>
           <component id="a7545" class="javax.swing.JButton" binding="bntCadastros">
-            <constraints/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
             <properties>
               <background color="-10325340"/>
               <borderPainted value="false"/>
@@ -93,7 +106,9 @@
             </properties>
           </component>
           <component id="a8871" class="javax.swing.JButton" binding="bntSalvar">
-            <constraints/>
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
             <properties>
               <background color="-10325340"/>
               <borderPainted value="true"/>
@@ -106,7 +121,9 @@
             </properties>
           </component>
           <component id="6c425" class="javax.swing.JButton" binding="btnDeletar">
-            <constraints/>
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
             <properties>
               <background color="-10325340"/>
               <borderPainted value="true"/>
@@ -121,18 +138,18 @@
         </children>
       </grid>
       <grid id="57557" binding="panelCadastro" layout-manager="GridBagLayout">
-        <constraints border-constraint="Center"/>
+        <constraints border-constraint="East"/>
         <properties>
           <background color="-12302502"/>
           <font size="14" style="1"/>
           <foreground color="-460558"/>
-          <visible value="false"/>
+          <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
           <component id="ab3bd" class="javax.swing.JLabel" binding="lbRua">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.1" weighty="0.0"/>
             </constraints>
             <properties>
@@ -142,7 +159,7 @@
           </component>
           <component id="66f7" class="javax.swing.JLabel" binding="lbBairro">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -152,7 +169,7 @@
           </component>
           <component id="70091" class="javax.swing.JLabel" binding="lbCidade">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -160,9 +177,9 @@
               <text value="Cidade"/>
             </properties>
           </component>
-          <component id="62752" class="javax.swing.JLabel" binding="lbCEP">
+          <component id="62752" class="javax.swing.JLabel" binding="CEPLabel">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -170,19 +187,19 @@
               <text value="CEP"/>
             </properties>
           </component>
-          <component id="92e42" class="javax.swing.JLabel" binding="lbUF">
+          <component id="92e42" class="javax.swing.JLabel" binding="lbNumeroCasa">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
               <foreground color="-460558"/>
-              <text value="UF"/>
+              <text value="Número"/>
             </properties>
           </component>
           <component id="1957b" class="javax.swing.JTextField" binding="tfBairro">
             <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
@@ -196,7 +213,7 @@
           </component>
           <component id="a354" class="javax.swing.JTextField" binding="tfCEP">
             <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
@@ -208,20 +225,9 @@
               <foreground color="-460558"/>
             </properties>
           </component>
-          <component id="ce52b" class="javax.swing.JComboBox" binding="cbUF">
-            <constraints>
-              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
-            </constraints>
-            <properties>
-              <background color="-10325340"/>
-              <editable value="true"/>
-              <foreground color="-460558"/>
-            </properties>
-          </component>
           <component id="ac59f" class="javax.swing.JButton" binding="btnCadastrar">
             <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
             </constraints>
             <properties>
@@ -231,21 +237,9 @@
               <text value="Cadastrar"/>
             </properties>
           </component>
-          <component id="f65e6" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
-            <constraints>
-              <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="10" bottom="0" right="15" weightx="0.0" weighty="0.0" ipady="10"/>
-            </constraints>
-            <properties>
-              <background color="-10325340"/>
-              <borderPainted value="false"/>
-              <foreground color="-460558"/>
-              <text value="Buscar"/>
-            </properties>
-          </component>
           <component id="a1abf" class="javax.swing.JTextField" binding="tfRua">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
               <gridbag weightx="0.8" weighty="0.1" ipady="10"/>
@@ -271,13 +265,64 @@
           </component>
           <component id="b7d5d" class="javax.swing.JComboBox" binding="cbCidade">
             <constraints>
-              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
             </constraints>
             <properties>
               <background color="-10325340"/>
               <editable value="true"/>
               <foreground color="-460558"/>
+            </properties>
+          </component>
+          <component id="1ff22" class="javax.swing.JTextField" binding="tfComplemento">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="0.1" ipady="10"/>
+            </constraints>
+            <properties>
+              <background color="-12302502"/>
+              <caretColor color="-460558"/>
+              <font size="14" style="1"/>
+              <foreground color="-460558"/>
+            </properties>
+          </component>
+          <component id="f881e" class="javax.swing.JLabel" binding="lbComplemento">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.1" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <foreground color="-460558"/>
+              <text value="Complemento"/>
+            </properties>
+          </component>
+          <component id="894cf" class="javax.swing.JTextField" binding="tfNumeroCasa">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.8" weighty="0.1" ipady="10"/>
+            </constraints>
+            <properties>
+              <background color="-12302502"/>
+              <caretColor color="-460558"/>
+              <font size="14" style="1"/>
+              <foreground color="-460558"/>
+              <opaque value="true"/>
+            </properties>
+          </component>
+          <component id="f65e6" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
+            <constraints>
+              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="10" bottom="0" right="15" weightx="0.0" weighty="0.0" ipady="10"/>
+            </constraints>
+            <properties>
+              <background color="-10325340"/>
+              <borderPainted value="false"/>
+              <foreground color="-460558"/>
+              <text value="Buscar"/>
             </properties>
           </component>
         </children>

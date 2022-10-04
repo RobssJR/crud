@@ -7,33 +7,14 @@ import jakarta.persistence.*;
 public class Estados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idEstado;
+    public long idEstado;
     @Column(length = 10)
-    private String uf;
+    public String uf;
     @Column(length = 20)
-    private String nome;
+    public String nome;
 
-    public long getIdEstado() {
-        return idEstado;
-    }
-
-    public void setIdEstado(long idEstado) {
-        this.idEstado = idEstado;
-    }
-
-    public String getUf() {
+    @Override
+    public String toString() {
         return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 }
