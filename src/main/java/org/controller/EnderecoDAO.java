@@ -22,7 +22,22 @@ public class EnderecoDAO implements IEnderecoDAO {
 
     @Override
     public void Update(Endereco endereco) {
+        try {
+            entityManager.getTransaction().begin();
+            Endereco old = Select(endereco.idEndereco);
 
+            old.cidade = endereco.cidade;
+            old.rua = endereco.rua;
+            old.CEP = endereco.CEP;
+            old.numeroCasa = endereco.numeroCasa;
+            old.complemento = endereco.complemento;
+            old.bairro = endereco.bairro;
+
+            entityManager.persist(old);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -40,5 +55,10 @@ public class EnderecoDAO implements IEnderecoDAO {
     @Override
     public List<Endereco> Read() {
         return entityManager.createQuery("from Endereco").getResultList();
+    }
+
+    @Override
+    public Endereco Select(long idEndereco) {
+        return entityManager.find(Endereco.class, idEndereco);
     }
 }

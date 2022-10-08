@@ -14,13 +14,15 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class frmPrincipal extends JFrame {
     private JPanel panelPrincipal;
@@ -33,7 +35,7 @@ public class frmPrincipal extends JFrame {
     private JTextField tfBairro;
     private JTextField tfCidade;
     private JTextField tfCEP;
-    private JButton btnCadastrar;
+    private JButton btnSalvar;
     private JPanel panelCadastro;
     private JComboBox cbUF;
     private JButton buscarButton;
@@ -45,17 +47,18 @@ public class frmPrincipal extends JFrame {
     private JLabel lbNumeroCasa;
     private JComboBox cbCidade;
     private JButton btnDeletar;
-    private JButton bntSalvar;
     private JTextField tfSearch;
     private JTextField tfComplemento;
     private JLabel lbComplemento;
     private JTextField tfNumeroCasa;
+    private JLabel lbUF;
+    private JButton btnAlterar;
     private DefaultTableModel model;
-
     private IEnderecoDAO enderecoDAO = new EnderecoDAO();
     private ICidadesDAO cidadesDAO = new CidadesDAO();
     private IEstadosDAO estadosDAO = new EstadosDAO();
     private DBAccess dbAccess = DBAccess.getInstance();
+    private Endereco enderecoSelecionado;
 
     public frmPrincipal() {
         super();
@@ -69,6 +72,10 @@ public class frmPrincipal extends JFrame {
 
         for (Cidades cidade: cidadesDAO.Read()) {
             cbCidade.addItem(cidade);
+        }
+
+        for (Estados estado: estadosDAO.Read()) {
+            cbUF.addItem(estado);
         }
 
         carregarModel();
@@ -94,44 +101,61 @@ public class frmPrincipal extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
-                panelPrincipal.add(panelTable, BorderLayout.CENTER);
-                panelPrincipal.remove(panelCadastro);
-                panelPrincipal.revalidate();
-                panelPrincipal.repaint();
-
-                carregarDados();
+                carregarTabela();
             }
         });
         bntCadastros.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
-                panelPrincipal.add(panelCadastro, BorderLayout.CENTER);
-                panelPrincipal.remove(panelTable);
-                panelPrincipal.revalidate();
-                panelPrincipal.repaint();
+                carregarCadastro();
             }
         });
-        btnCadastrar.addMouseListener(new MouseAdapter() {
+
+        btnSalvar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                try {
+                    if (enderecoSelecionado == null) {
+                        Endereco endereco = new Endereco();
 
-                Endereco endereco = new Endereco();
+                        endereco.CEP = tfCEP.getText();
+                        endereco.rua = tfRua.getText();
+                        endereco.bairro = tfBairro.getText();
+                        endereco.complemento = tfComplemento.getText();
+                        endereco.cidade = (Cidades) cbCidade.getSelectedItem();
+                        endereco.numeroCasa = Integer.parseInt(tfNumeroCasa.getText());
 
-                endereco.CEP = tfCEP.getText();
-                endereco.rua = tfRua.getText();
-                endereco.bairro = tfBairro.getText();
-                endereco.complemento = tfComplemento.getText();
-                endereco.cidade = (Cidades) cbCidade.getSelectedItem();
-                endereco.numeroCasa = Integer.parseInt(tfNumeroCasa.getText());
+                        enderecoDAO.Insert(endereco);
 
-                enderecoDAO.Insert(endereco);
+                    } else {
 
+                        enderecoSelecionado.CEP = tfCEP.getText();
+                        enderecoSelecionado.rua = tfRua.getText();
+                        enderecoSelecionado.bairro = tfBairro.getText();
+                        enderecoSelecionado.complemento = tfComplemento.getText();
+                        enderecoSelecionado.cidade = (Cidades) cbCidade.getSelectedItem();
+                        enderecoSelecionado.numeroCasa = Integer.parseInt(tfNumeroCasa.getText());
+
+                        enderecoDAO.Insert(enderecoSelecionado);
+                    }
+
+                    tfCEP.setText("");
+                    tfRua.setText("");
+                    tfBairro.setText("");
+                    tfComplemento.setText("");
+                    tfNumeroCasa.setText("");
+                    cbCidade.setSelectedIndex(0);
+                    cbUF.setSelectedIndex(0);
+                    enderecoSelecionado = null;
+                } catch (Exception exception) {
+                    if (exception.getMessage().contains("ConstraintViolationException"))
+                        showMessageDialog(null, "Erro ao salvar, verifique se o CEP já foi cadastrado");
+                }
             }
         });
+
         buscarButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -149,19 +173,26 @@ public class frmPrincipal extends JFrame {
                 try {
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     jsonObject = (JSONObject) parser.parse(response.body());
+                    if (jsonObject.get("erro") != "true") {
+                        cbCidade.removeAllItems();
+                        cbUF.removeAllItems();
 
-                    tfComplemento.setText((String) jsonObject.get("complemento"));
-                    tfBairro.setText((String) jsonObject.get("bairro"));
-                    tfRua.setText((String) jsonObject.get("logradouro"));
-                    cbCidade.setSelectedItem(cidadesDAO.Select((String) jsonObject.get("localidade")).get(0));
+                        for (Cidades cidade: cidadesDAO.Read()) {
+                            cbCidade.addItem(cidade);
+                        }
 
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
+                        for (Estados estado: estadosDAO.Read()) {
+                            cbUF.addItem(estado);
+                        }
+
+                        tfComplemento.setText((String) jsonObject.get("complemento"));
+                        tfBairro.setText((String) jsonObject.get("bairro"));
+                        tfRua.setText((String) jsonObject.get("logradouro"));
+                        cbCidade.setSelectedItem(cidadesDAO.SelectByName((String) jsonObject.get("localidade")).get(0));
+                        cbUF.setSelectedItem(estadosDAO.SelectByUF((String) jsonObject.get("uf")).get(0));
+                    }
+
+                } catch (Exception exception) { showMessageDialog(null, "CEP invalido"); }
             }
         });
         btnDeletar.addMouseListener(new MouseAdapter() {
@@ -170,37 +201,70 @@ public class frmPrincipal extends JFrame {
                 super.mouseClicked(e);
 
                 for (int row : tbEnderecos.getSelectedRows()) {
-                    System.out.println(model.getValueAt(row,0));
                     enderecoDAO.Delete((long)model.getValueAt(row,0));
                     model.removeRow(row);
                 }
             }
         });
+
+        tfSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                String filtro = tfSearch.getText();
+                carregarDados(filtro);
+            }
+        });
+
+        cbUF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cbCidade.removeAllItems();
+                try {
+                    for (Cidades cidade: cidadesDAO.SelectByUF(cbUF.getSelectedItem().toString())) {
+                        cbCidade.addItem(cidade);
+                    }
+                } catch (Exception exception) { }
+            }
+        });
+        btnAlterar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if (tbEnderecos.getSelectedRowCount() > 0) {
+                    carregarAlterar();
+                } else {
+                    showMessageDialog(null, "Selecione uma linha");
+                }
+            }
+        });
     }
 
-    public void carregarDados() {
+    public void carregarDados(String filtro) {
         model = (DefaultTableModel) tbEnderecos.getModel();
 
         model.setRowCount(0);
 
         for (Endereco endereco : enderecoDAO.Read()) {
-            model.addRow(new Object[]{
-                    endereco.idEndereco,
-                    endereco.rua,
-                    endereco.numeroCasa,
-                    endereco.complemento,
-                    endereco.bairro,
-                    endereco.cidade.nome,
-                    endereco.cidade.estados.uf,
-                    endereco.CEP
-
-            });
+            if(endereco.rua.toLowerCase().contains(filtro.toLowerCase()) || filtro.equals("")) {
+                model.addRow(new Object[]{
+                        endereco.idEndereco,
+                        endereco.rua,
+                        String.valueOf(endereco.numeroCasa),
+                        endereco.complemento,
+                        endereco.bairro,
+                        endereco.cidade.nome,
+                        endereco.cidade.estados.uf,
+                        endereco.CEP,
+                        endereco.cidade.idCidade,
+                });
+            };
         }
     }
 
     public void carregarModel() {
         model = (DefaultTableModel) tbEnderecos.getModel();
-
 
         model.addColumn("Id");
         model.addColumn("Rua");
@@ -211,7 +275,7 @@ public class frmPrincipal extends JFrame {
         model.addColumn("UF");
         model.addColumn("CEP");
 
-        carregarDados();
+        carregarDados("");
 
         tbEnderecos.setModel(model);
 
@@ -219,4 +283,40 @@ public class frmPrincipal extends JFrame {
         tableColumnModel.removeColumn(tableColumnModel.getColumn(0));
     }
 
+    public void carregarTabela() {
+        panelPrincipal.add(panelTable, BorderLayout.CENTER);
+        panelPrincipal.remove(panelCadastro);
+        panelPrincipal.revalidate();
+        panelPrincipal.repaint();
+
+        btnDeletar.setVisible(true);
+        btnAlterar.setVisible(true);
+
+        carregarDados("");
+    }
+
+    public void carregarCadastro() {
+        panelPrincipal.add(panelCadastro, BorderLayout.CENTER);
+        panelPrincipal.remove(panelTable);
+        panelPrincipal.revalidate();
+        panelPrincipal.repaint();
+
+        btnDeletar.setVisible(false);
+        btnAlterar.setVisible(false);
+
+        if (enderecoSelecionado != null) {
+            tfCEP.setText(enderecoSelecionado.CEP);
+            tfRua.setText(enderecoSelecionado.rua);
+            tfBairro.setText(enderecoSelecionado.bairro);
+            tfComplemento.setText(enderecoSelecionado.complemento);
+            tfNumeroCasa.setText(String.valueOf(enderecoSelecionado.numeroCasa));
+            cbCidade.setSelectedItem(enderecoSelecionado.cidade);
+            cbUF.setSelectedItem(enderecoSelecionado.cidade.estados);
+        }
+    }
+
+    public void carregarAlterar() {
+        enderecoSelecionado = enderecoDAO.Select((long) model.getValueAt(tbEnderecos.getSelectedRow(),0));
+        carregarCadastro();
+    }
 }

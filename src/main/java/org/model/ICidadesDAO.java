@@ -7,5 +7,7 @@ public interface ICidadesDAO {
     void Update(Cidades cidades);
     void Delete(long idCidades);
     List<Cidades> Read();
-    List<Cidades> Select(String name);
+    List<Cidades> SelectByName(String name);
+    Cidades Select(long idCidade);
+    List<Cidades> SelectByUF(String uf);
 }

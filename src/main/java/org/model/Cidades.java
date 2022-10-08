@@ -13,7 +13,6 @@ public class Cidades {
     public Estados estados;
     @Column(length = 50)
     public String nome;
-
     @Override
     public String toString() {
         return nome;

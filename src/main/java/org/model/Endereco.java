@@ -14,7 +14,7 @@ public class Endereco {
     @ManyToOne()
     @JoinColumn(name = "idCidade")
     public Cidades cidade;
-    @Column(length = 9)
+    @Column(length = 9, unique = true)
     public String CEP;
     @Column(length = 50)
     public String complemento;

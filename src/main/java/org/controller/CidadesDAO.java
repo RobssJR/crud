@@ -2,6 +2,7 @@ package org.controller;
 
 import org.hibernate.query.Query;
 import org.model.Cidades;
+import org.model.Estados;
 import org.model.ICidadesDAO;
 import static org.controller.DBAccess.entityManager;
 
@@ -30,14 +31,25 @@ public class CidadesDAO implements ICidadesDAO {
         return entityManager.createQuery("from Cidades").getResultList();
     }
 
-    public List<Cidades> Select(String name) {
+    public List<Cidades> SelectByName(String name) {
 
         name = Normalizer.normalize(name, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 
-        List query = entityManager.createQuery("from Cidades as c where c.nome = :name", Cidades.class)
+        List query = entityManager.createQuery("FROM Cidades c WHERE c.nome = :name", Cidades.class)
                 .setParameter("name", name)
                 .getResultList();
 
         return query;
+    }
+
+    @Override
+    public Cidades Select(long idCidade) {
+        return entityManager.find(Cidades.class, idCidade);
+    }
+
+    public List<Cidades> SelectByUF(String uf) {
+        return entityManager.createQuery("FROM Cidades c  where c.estados.uf = :uf", Cidades.class)
+                .setParameter("uf", uf)
+                .getResultList();
     }
 }

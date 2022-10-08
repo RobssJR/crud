@@ -7,4 +7,6 @@ public interface IEstadosDAO {
     void Update(Estados estados);
     void Delete(long idEstado);
     List<Estados> Read();
+    Estados Select(long idEstado);
+    List<Estados> SelectByUF(String uf);
 }
