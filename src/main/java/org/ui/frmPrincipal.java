@@ -2,7 +2,6 @@ package org.ui;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
 import org.controller.CidadesDAO;
 import org.controller.DBAccess;
 import org.controller.EnderecoDAO;
@@ -15,12 +14,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.SQLException;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -144,23 +141,23 @@ public class frmPrincipal extends JFrame {
                         if (enderecoSelecionado == null) {
                             Endereco endereco = new Endereco();
 
-                            endereco.CEP = tfCEP.getText();
-                            endereco.rua = tfRua.getText();
-                            endereco.bairro = tfBairro.getText();
-                            endereco.complemento = tfComplemento.getText();
-                            endereco.cidade = (Cidades) cbCidade.getSelectedItem();
-                            endereco.numeroCasa = Integer.parseInt(tfNumeroCasa.getText());
+                            endereco.setCEP(tfCEP.getText());
+                            endereco.setRua(tfRua.getText());
+                            endereco.setBairro(tfBairro.getText());
+                            endereco.setComplemento(tfComplemento.getText());
+                            endereco.setCidade((Cidades) cbCidade.getSelectedItem());
+                            endereco.setNumeroCasa(Integer.parseInt(tfNumeroCasa.getText()));
 
                             enderecoDAO.Insert(endereco);
 
                         } else {
 
-                            enderecoSelecionado.CEP = tfCEP.getText();
-                            enderecoSelecionado.rua = tfRua.getText();
-                            enderecoSelecionado.bairro = tfBairro.getText();
-                            enderecoSelecionado.complemento = tfComplemento.getText();
-                            enderecoSelecionado.cidade = (Cidades) cbCidade.getSelectedItem();
-                            enderecoSelecionado.numeroCasa = Integer.parseInt(tfNumeroCasa.getText());
+                            enderecoSelecionado.setCEP(tfCEP.getText());
+                            enderecoSelecionado.setRua(tfRua.getText());
+                            enderecoSelecionado.setBairro(tfBairro.getText());
+                            enderecoSelecionado.setComplemento(tfComplemento.getText());
+                            enderecoSelecionado.setCidade((Cidades) cbCidade.getSelectedItem());
+                            enderecoSelecionado.setNumeroCasa(Integer.parseInt(tfNumeroCasa.getText()));
 
                             enderecoDAO.Insert(enderecoSelecionado);
                         }
@@ -279,17 +276,17 @@ public class frmPrincipal extends JFrame {
         model.setRowCount(0);
 
         for (Endereco endereco : enderecoDAO.Read()) {
-            if(endereco.rua.toLowerCase().contains(filtro.toLowerCase()) || filtro.equals("")) {
+            if(endereco.getRua().toLowerCase().contains(filtro.toLowerCase()) || filtro.equals("")) {
                 model.addRow(new Object[]{
-                        endereco.idEndereco,
-                        endereco.rua,
-                        String.valueOf(endereco.numeroCasa),
-                        endereco.complemento,
-                        endereco.bairro,
-                        endereco.cidade.nome,
-                        endereco.cidade.estados.uf,
-                        endereco.CEP,
-                        endereco.cidade.idCidade,
+                        endereco.getIdEndereco(),
+                        endereco.getRua(),
+                        String.valueOf(endereco.getNumeroCasa()),
+                        endereco.getComplemento(),
+                        endereco.getBairro(),
+                        endereco.getCidade().getNome(),
+                        endereco.getCidade().getEstados().getUf(),
+                        endereco.getCEP(),
+                        endereco.getCidade().getIdCidade(),
                 });
             };
         }
@@ -344,13 +341,13 @@ public class frmPrincipal extends JFrame {
         lbTituloCadastro.setText("Cadastro");
 
         if (enderecoSelecionado != null) {
-            tfCEP.setText(enderecoSelecionado.CEP);
-            tfRua.setText(enderecoSelecionado.rua);
-            tfBairro.setText(enderecoSelecionado.bairro);
-            tfComplemento.setText(enderecoSelecionado.complemento);
-            tfNumeroCasa.setText(String.valueOf(enderecoSelecionado.numeroCasa));
-            cbCidade.setSelectedItem(enderecoSelecionado.cidade);
-            cbUF.setSelectedItem(enderecoSelecionado.cidade.estados);
+            tfCEP.setText(enderecoSelecionado.getCEP());
+            tfRua.setText(enderecoSelecionado.getRua());
+            tfBairro.setText(enderecoSelecionado.getBairro());
+            tfComplemento.setText(enderecoSelecionado.getComplemento());
+            tfNumeroCasa.setText(String.valueOf(enderecoSelecionado.getNumeroCasa()));
+            cbCidade.setSelectedItem(enderecoSelecionado.getCidade());
+            cbUF.setSelectedItem(enderecoSelecionado.getCidade().getEstados());
 
             lbTituloCadastro.setText("Alterar registro");
         }

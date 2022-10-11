@@ -24,14 +24,14 @@ public class EnderecoDAO implements IEnderecoDAO {
     public void Update(Endereco endereco) {
         try {
             entityManager.getTransaction().begin();
-            Endereco old = Select(endereco.idEndereco);
+            Endereco old = Select(endereco.getIdEndereco());
 
-            old.cidade = endereco.cidade;
-            old.rua = endereco.rua;
-            old.CEP = endereco.CEP;
-            old.numeroCasa = endereco.numeroCasa;
-            old.complemento = endereco.complemento;
-            old.bairro = endereco.bairro;
+            old.setCidade(endereco.getCidade());
+            old.setRua(endereco.getRua());
+            old.setCEP(endereco.getCEP());
+            old.setNumeroCasa(endereco.getNumeroCasa());
+            old.setComplemento(endereco.getComplemento());
+            old.setBairro(endereco.getBairro());
 
             entityManager.persist(old);
             entityManager.getTransaction().commit();
