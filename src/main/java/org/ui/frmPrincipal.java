@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.security.Key;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -76,8 +77,8 @@ public class frmPrincipal extends JFrame {
         this.setBounds(0,0,900,600);
         this.setContentPane(panelPrincipal);
 
-        panelPrincipal.remove(panelTable);
-        panelPrincipal.remove(panelCadastro);
+
+
         panelPrincipal.addComponentListener(new ResizeListener());
 
         for (Cidades cidade: cidadesDAO.Read()) {
@@ -89,6 +90,7 @@ public class frmPrincipal extends JFrame {
         }
 
         carregarModel();
+        carregarTabela();
 
         tbEnderecos.getTableHeader().setBackground(Color.decode("#44475a"));
         tbEnderecos.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
@@ -139,6 +141,11 @@ public class frmPrincipal extends JFrame {
                 try {
                     if (validado) {
                         if (enderecoSelecionado == null) {
+                            if (enderecoDAO.SelectByCEP(tfCEP.getText()).size() != 0) {
+                                showMessageDialog(null, "Erro ao salvar, verifique se o CEP já foi cadastrado");
+                                return;
+                            }
+
                             Endereco endereco = new Endereco();
 
                             endereco.setCEP(tfCEP.getText());
@@ -149,8 +156,13 @@ public class frmPrincipal extends JFrame {
                             endereco.setNumeroCasa(Integer.parseInt(tfNumeroCasa.getText()));
 
                             enderecoDAO.Insert(endereco);
+                            carregarTabela();
 
                         } else {
+                            if (enderecoDAO.SelectByCEP(tfCEP.getText()).size() != 0 && !tfCEP.getText().equals(enderecoSelecionado.getCEP())) {
+                                showMessageDialog(null, "Erro ao salvar, verifique se o CEP já foi cadastrado");
+                                return;
+                            }
 
                             enderecoSelecionado.setCEP(tfCEP.getText());
                             enderecoSelecionado.setRua(tfRua.getText());
@@ -160,6 +172,7 @@ public class frmPrincipal extends JFrame {
                             enderecoSelecionado.setNumeroCasa(Integer.parseInt(tfNumeroCasa.getText()));
 
                             enderecoDAO.Insert(enderecoSelecionado);
+                            carregarTabela();
                         }
 
                         tfCEP.setText("");
@@ -171,13 +184,9 @@ public class frmPrincipal extends JFrame {
                         cbUF.setSelectedIndex(0);
                         enderecoSelecionado = null;
                     } else {
-                        showMessageDialog(null, "Preencha todos os campos");
+                        showMessageDialog(null, "Preencha todos os campos corretamente");
                     }
-
-                } catch (Exception exception) {
-                    if (exception.getMessage().contains("ConstraintViolationException"))
-                        showMessageDialog(null, "Erro ao salvar, verifique se o CEP já foi cadastrado");
-                }
+                } catch (Exception exception) { }
             }
         });
 
@@ -265,6 +274,34 @@ public class frmPrincipal extends JFrame {
                     carregarAlterar();
                 } else {
                     showMessageDialog(null, "Selecione uma linha");
+                }
+            }
+        });
+        tfCEP.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+
+                if (e.getKeyChar() >= '0' && e.getKeyChar() <= '9'
+                        || e.getKeyCode() == KeyEvent.VK_BACK_SPACE
+                        || e.getKeyChar() == '-') {
+                    tfNumeroCasa.setEditable(true);
+                } else {
+                    tfNumeroCasa.setEditable(false);
+                }
+            }
+        });
+
+        tfNumeroCasa.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+
+                if (e.getKeyChar() >= '0' && e.getKeyChar() <= '9'
+                        || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    tfNumeroCasa.setEditable(true);
+                } else {
+                    tfNumeroCasa.setEditable(false);
                 }
             }
         });

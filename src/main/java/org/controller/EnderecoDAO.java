@@ -61,4 +61,11 @@ public class EnderecoDAO implements IEnderecoDAO {
     public Endereco Select(long idEndereco) {
         return entityManager.find(Endereco.class, idEndereco);
     }
+
+    @Override
+    public List<Endereco> SelectByCEP(String cep) {
+        return entityManager.createQuery("FROM Endereco e WHERE e.CEP = :cep ")
+                .setParameter("cep", cep)
+                .getResultList();
+    }
 }

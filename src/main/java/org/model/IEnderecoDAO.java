@@ -7,6 +7,6 @@ public interface IEnderecoDAO {
     void Update(Endereco endereco);
     void Delete(long idEndereco);
     List<Endereco> Read();
-
     Endereco Select(long idEndereco);
+    List<Endereco> SelectByCEP(String cep);
 }

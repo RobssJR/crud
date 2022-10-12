@@ -1,6 +1,12 @@
 package org.model;
 
 import jakarta.persistence.*;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static javax.swing.JOptionPane.showMessageDialog;
+
 @Entity
 @Table(name = "endereco")
 public class Endereco {
@@ -58,7 +64,16 @@ public class Endereco {
     }
 
     public void setCEP(String CEP) {
-        this.CEP = CEP;
+        Pattern pattern = Pattern.compile("[0-9]{5}-[0-9]{3}");
+        Matcher matcher = pattern.matcher(CEP);
+        boolean matchFound = matcher.find();
+
+        if(matchFound) {
+            this.CEP = CEP;
+        } else {
+            this.CEP = null;
+            showMessageDialog(null, "CEP Invalido");
+        }
     }
 
     public String getComplemento() {
