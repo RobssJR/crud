@@ -19,6 +19,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.Key;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -131,12 +133,18 @@ public class frmPrincipal extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
+                Pattern pattern = Pattern.compile("[0-9]{5}-[0-9]{3}");
+                Matcher matcher = pattern.matcher(tfCEP.getText());
+                boolean matchFound = matcher.find();
+
                 boolean validado = (!tfCEP.getText().equals("")
                         && !tfRua.getText().equals("")
                         && !tfBairro.getText().equals("")
                         && !tfComplemento.getText().equals("")
                         && !tfNumeroCasa.getText().equals("")
-                        && cbCidade.getSelectedItem() != null);
+                        && cbCidade.getSelectedItem() != null
+                        && matchFound
+                        && tfCEP.getText().length() == 9);
 
                 try {
                     if (validado) {
@@ -207,26 +215,36 @@ public class frmPrincipal extends JFrame {
                 try {
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     jsonObject = (JSONObject) parser.parse(response.body());
+
                     if (jsonObject.get("erro") != "true") {
                         cbCidade.removeAllItems();
                         cbUF.removeAllItems();
-
-                        for (Cidades cidade: cidadesDAO.Read()) {
-                            cbCidade.addItem(cidade);
-                        }
 
                         for (Estados estado: estadosDAO.Read()) {
                             cbUF.addItem(estado);
                         }
 
+                        for (Cidades cidade: cidadesDAO.Read()) {
+                            cbCidade.addItem(cidade);
+                        }
+
                         tfComplemento.setText((String) jsonObject.get("complemento"));
                         tfBairro.setText((String) jsonObject.get("bairro"));
                         tfRua.setText((String) jsonObject.get("logradouro"));
-                        cbCidade.setSelectedItem(cidadesDAO.SelectByName((String) jsonObject.get("localidade")).get(0));
                         cbUF.setSelectedItem(estadosDAO.SelectByUF((String) jsonObject.get("uf")).get(0));
+                        cbCidade.setSelectedItem(cidadesDAO.SelectByName((String) jsonObject.get("localidade")).get(0));
                     }
 
-                } catch (Exception exception) { showMessageDialog(null, "CEP invalido"); }
+                } catch (Exception exception) {
+                    for (Cidades cidade: cidadesDAO.Read()) {
+                        cbCidade.addItem(cidade);
+                    }
+
+                    for (Estados estado: estadosDAO.Read()) {
+                        cbUF.addItem(estado);
+                    }
+                    showMessageDialog(null, "CEP invalido");
+                }
             }
         });
         btnDeletar.addMouseListener(new MouseAdapter() {

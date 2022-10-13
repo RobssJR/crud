@@ -64,16 +64,7 @@ public class Endereco {
     }
 
     public void setCEP(String CEP) {
-        Pattern pattern = Pattern.compile("[0-9]{5}-[0-9]{3}");
-        Matcher matcher = pattern.matcher(CEP);
-        boolean matchFound = matcher.find();
-
-        if(matchFound) {
-            this.CEP = CEP;
-        } else {
-            this.CEP = null;
-            showMessageDialog(null, "CEP Invalido");
-        }
+        this.CEP = CEP;
     }
 
     public String getComplemento() {
